@@ -1,0 +1,249 @@
+/**
+ * @license GPL-2.0-or-later
+ */
+
+
+
+
+
+/* ===== Toolbar styling (minimal, theme-friendly) ===== */
+.acpe-toolbar{
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  flex-wrap: wrap;
+  margin: .25rem 0 .75rem 0;
+  position: relative;
+  font-size: 0.95em;
+}
+
+.acpe-toolbar a{ text-decoration: none; }
+
+.acpe-icon{
+  margin-right: .25rem;
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;  
+}
+
+.acpe-sep{ opacity: .55; }
+
+/* Dropdown menu */
+.acpe-menu{
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 9999;
+  margin-top: .35rem;
+  padding: .45rem .6rem;
+  background: #fff;
+  color: #000;
+  border: 1px solid rgba(0,0,0,.18);
+  border-radius: 10px;
+  box-shadow: 0 10px 28px rgba(0,0,0,.16);
+  min-width: 200px;
+  width: 100%;
+}
+
+/* Dropdown items: align icon + label cleanly */
+.acpe-menu a{
+  display: flex;
+  align-items: center;
+  gap: .35rem;
+  padding: .35rem .25rem;
+  cursor: pointer;
+}
+
+
+/* Avoid double spacing: .acpe-svg already has margin-right */
+.acpe-menu .acpe-svg{ margin-right: 0; }
+
+
+.acpe-menu[hidden]{ display:none !important; }
+
+
+.acpe-hr{
+  margin: .35rem 0;
+  border: 0;
+  border-top: 1px solid rgba(0,0,0,.12);
+}
+
+/* Focus + hover */
+.acpe-toolbar a:focus{
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.acpe-menu a:focus,
+.acpe-menu a:hover{
+  background: rgba(0,0,0,.06);
+  outline: none;
+  border-radius: 6px;
+}
+
+/* SVG sizing */
+.acpe-svg{
+  width: 14px;
+  height: 14px;
+  display: inline-block;
+  flex: 0 0 14px;
+  fill: currentColor;
+  stroke: currentColor;
+  vertical-align: middle;   
+}
+
+.acpe-toolbar svg.acpe-svg{
+  max-width: 14px !important;
+  max-height: 14px !important;
+}
+
+
+/* ------ Setting: Show labels / icons only / both ------ */
+.acpe-mode-both .acpe-label { display: inline-flex; }
+.acpe-mode-both .acpe-icon  { display: inline-flex; }
+
+.acpe-mode-icons .acpe-label { display: none !important; }
+.acpe-mode-icons .acpe-icon  { display: inline; }
+.acpe-mode-icons .acpe-sep   { display: none; } /* optional */
+
+.acpe-mode-labels .acpe-label { display: inline; }
+.acpe-mode-labels .acpe-icon  { display: none !important; }
+
+
+
+/* ===== Print stylesheet (theme-agnostic) ===== */
+@media print {
+  @page { margin: 0.75in; }
+
+  /* Remove interactive UI */
+  .acpe-toolbar,
+  .acpe-menu,
+  .addtoany_share_save_container,
+  .addtoany_content,
+  .a2a_kit,
+  .a2a_menu,
+  .a2a_overlay,
+  .a2a_modal {
+    display: none !important;
+  }
+
+  /* Hide common site chrome (best-effort, theme-agnostic) */
+  header, nav, footer, aside,
+  [role="banner"], [role="navigation"], [role="contentinfo"], [role="complementary"],
+  .sidebar, .widget-area, .widgets, .site-header, .site-footer, .site-navigation,
+  .menu, .navbar, .pagination {
+    display: none !important;
+  }
+
+  html, body{
+    background: #fff !important;
+    color: #000 !important;
+  }
+
+  body{
+    font-family: Georgia, "Times New Roman", Times, serif !important;
+    font-size: 12.5pt !important;
+    line-height: 1.5 !important;
+  }
+
+  h1,h2,h3,h4,h5,h6{
+    page-break-after: avoid;
+    break-after: avoid;
+    line-height: 1.2 !important;
+  }
+  
+  p, blockquote, ul, ol { orphans: 3; widows: 3; }
+
+  /* No printed URL after links */
+  a[href]:after, a[href]:before{ content: "" !important; }
+
+  /* Full-width content regardless of layout */
+  .container, .wrap, .site, .content, .content-area, .site-content,
+  .post, .page, .hentry, article,
+  .entry-content, .post-content, .post_content,
+  .row, [class*="col-"]{
+    float: none !important;
+    width: auto !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  img{
+    max-width: 100% !important;
+    height: auto !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  blockquote, .wp-block-quote, .wp-block-pullquote{
+    border: 0 !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0.15in 0 !important;
+  }
+  
+  /* --- FORCE POST TITLE TO PRINT (override theme print rules) --- */
+  .page-header,
+  .page-header * ,
+  .entry-header,
+  .entry-header * ,
+  header.entry-header,
+  h1,
+  h1.single-title,
+  h1.entry-title,
+  .single-title,
+  .entry-title {
+    display: block !important;
+    visibility: visible !important;
+    position: static !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    clip: auto !important;
+    clip-path: none !important;
+    opacity: 1 !important;
+    color: #000 !important;
+  }
+
+  /* If your theme uses a "screen reader" class on titles in some templates */
+  .screen-reader-text,
+  .sr-only {
+    position: static !important;
+    width: auto !important;
+    height: auto !important;
+    margin: 0 !important;
+    overflow: visible !important;
+    clip: auto !important;
+    clip-path: none !important;
+    white-space: normal !important;
+  }
+  
+  
+  /* --- Hide Google reCAPTCHA badge in print --- */
+  .grecaptcha-badge,
+  iframe[src*="recaptcha"],
+  iframe[title*="recaptcha"] {
+    display: none !important;
+    visibility: hidden !important;
+  }
+  
+}
+
+
+
+
+  /* ==========================================================
+      Force display modes (high specificity, wins against theme CSS)
+     ========================================================== */
+	 
+
+.acpe-toolbar.acpe-mode-icons  .acpe-label { display: none !important; }
+.acpe-toolbar.acpe-mode-icons  .acpe-icon  { display: inline-flex !important; }
+
+.acpe-toolbar.acpe-mode-labels .acpe-label { display: inline !important; }
+.acpe-toolbar.acpe-mode-labels .acpe-icon  { display: none !important; }
+
+.acpe-toolbar.acpe-mode-both   .acpe-label { display: inline !important; }
+.acpe-toolbar.acpe-mode-both   .acpe-icon  { display: inline-flex !important; }
